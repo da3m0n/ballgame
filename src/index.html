@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>12COMP game</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="12COMP game">
+    <meta name="keywords" content="12COMP, javascript, firebase, programming, databases">
+    <meta name="author" content="Me">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- stylesheets *********************************-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- stylesheets *********************************-->
+
+
+    <!-- P5.js ***************************************-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+    <!-- P5.js ***************************************-->
+
+
+    <!-- firebase start ******************************-->
+    <!-- Firebase App(core Firebase SDK) required & must be listed 1st -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use **-->
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
+    <!-- firebase end ********************************-->
+
+    <!-- My code ***************************************-->
+    <!-- HTML and CSS -->
+    <script src="utils.js"></script>
+    <script src="ball.js"></script>
+    <script defer src="W3_CSS.js"></script>
+    <!--   <script defer src="W3_CSS_2.js"></script> -->
+    <!-- firebase access -->
+    <script defer src="fb_io.js"></script>
+    <!--   <script defer src="fb_io2.js"></script> -->
+    <!-- Game code -->
+<!--    <script defer src="game_code.js"></script>-->
+    <script defer src="gameCode2.js"></script>
+    <!--   <script defer src="game_code2.js"></script> -->
+<!--    <script defer src="ball.js"></script>-->
+
+    <!-- My code ***************************************-->
+
+</head>
+
+<!--***************************************************
+//  BODY
+****************************************************-->
+<body>
+<!--***************************************************
+//  Landing page
+****************************************************-->
+
+<section id="landingPage">
+    <div class="w3-container H100">
+        <div class="w3-wide H15">My landing Page</div>
+        <div class="w3-container H100">
+            <div class="w3-third H82 w3-row" id="loginPanel">
+                <p><button class="w3-button w3-green w3-border w3-large" onClick="_button_login()">Log in to start the game!</button></p>
+            </div>
+            <div class="w3-twothird H82" id="displayPanel">Display</div>
+        </div>
+    </div>
+</section>
+
+<!--***************************************************
+//  Game page
+****************************************************-->
+
+<section  id="gamePage">
+    <div class="w3-container w3-wide H100">
+        <div class="w3-wide H15">My game Page</div>
+        <div class="w3-third H70 w3-green" id="statsPanel">Stats Panel<p>
+            <button class="w3-button w3-yellow w3-border w3-large" id="startGameButton" onClick="_button_startGame()">Start the Game!</button></p>
+            <p id="pLastScore">Last Time: 0</p>
+            <p id="pScore">Timer: 0</p>
+            <p id="bScore">Ball Score: 0</p>
+            <p><button class="w3-button w3-green w3-border w3-large"
+                       onClick="adminLogin()">Admin Access</button></p>
+
+        </div>
+        <div class="w3-twothird H70 w3-green" id="gamePanel">
+            Game Panel</div>
+        <canvas id="canvas"></canvas>
+    </div>
+</section>
+
+<!--**************************************************
+  //Admin page
+***************************************************-->
+<section id="adminPage">
+    <div class="w3-container H100">
+        <div class="w3-wide H15">My ADMIN Page</div>
+        <p id="adminLabel"></p>
+        <p><button class="w3-button w3-green w3-border w3-large"
+                   onClick="back()">Back</button></p>
+    </div>
+</section>
+
+
+</body>
+</html>
+<!-- END OF HTML -++++++++++++++++++++++++++++++++++-->

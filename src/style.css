@@ -1,0 +1,67 @@
+/*************************************************************
+  Written by ????, Term 1 2021
+  Style a basic W3.CSS interface.
+    v1 Basic layout of landing & game pages.
+*************************************************************/
+html, body {
+    margin: 0px;
+    padding: 0px;
+    font-family: tahoma;
+    color: black;
+}
+
+canvas {
+    display: block;
+}
+
+.H15 {
+    height: 15%;
+}
+.H70{
+    height: 70%;
+}
+
+.H82{
+    height: 82%;
+}
+.H100{
+    height: 100VH;
+}
+/*************************************************************
+/*    Landing page styles
+*************************************************************/
+#landingPage{
+    background-color: lime;
+    display: block;
+    height: 100vh;
+}
+#loginPanel{
+    background-color: darkGreen;
+}
+#displayPanel{
+    background-color: darkSeaGreen;
+}
+/*************************************************************
+/*    Game page styles
+*************************************************************/
+
+#gamePage{
+    background-color: olive;
+    display: none;
+    height: 100vh;
+}
+
+#adminPage{
+    background-color: #c5c7c9;
+    display: none;
+    height: 100vh;
+}
+
+#gamePanel {
+    background-color: "orange";
+    border: 2px solid blue;
+}
+
+/*************************************************************
+/*    END OF CSS
+*************************************************************/
