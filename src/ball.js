@@ -1,5 +1,5 @@
 
-class Ball2 {
+class Ball {
     constructor(posX, posY, radius, vel, color) {
         this.radius = radius;
         this.posX = posX;

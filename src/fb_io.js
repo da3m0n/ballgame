@@ -51,29 +51,34 @@ function fb_initialise() {
 // Return: n/a
 /**************************************************************/
 function fb_login() {
-    console.log('fb_login: ');
+    // console.log('fb_login: ');
 
     //firebase.auth().onAuthStateChanged(newLogin);
     console.log("login");
     let loginStatus = 'logged out';
-    console.log('fb_login: status = ' + loginStatus);
+    // console.log('fb_login: status = ' + loginStatus);
 
     var provider = new firebase.auth.GoogleAuthProvider();
-    //firebase.auth().signInWithRedirect(provider); // Another method
     firebase.auth().signInWithPopup(provider).then(function(result) {
+
+        /** @type {firebase.auth.OAuthCredential} */
+        var credential = result.credential;
+        
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = credential.accessToken;
 
         let user = result.user;
         users.uid      = user.uid;
         users.email    = user.email;
         users.name     = user.displayName;
         users.photoURL = user.photoURL;
-        console.log('fb_login: -- status = ' + user.keys);
+        // console.log('fb_login: -- status = ' + user.keys);
 
         pages.show('game');
         // console.log('pages', pages);
 
         loginStatus = 'logged in via popup';
-        console.log('fb_login: status = ' + loginStatus);
+        console.log('fb_login: status = ' + loginStatus, user);
     })
         .catch(function(error) {
             console.log('ERROR!!!!!!!!!!!');
@@ -124,6 +129,32 @@ function fb_writeRec(_path, _key, _data) {
         });
 }
 
+function fb_readAdmin(_path, _key, _data, _processData) {
+    console.log('fb_readAdmin: path= ' + _path + ' key= ' + _key);
+    readStatus = "Initialised";
+    firebase.database().ref(_path+'/' + _key).once("value", gotData, readError)
+  }
+
+  function gotData(snapshot){
+    if (snapshot.val()==null){
+      readStatus = "Empty record";
+      console.log("You are not an admin")
+      alert("you are not an admin")
+    } else {
+      readStatus = "complete";
+      let dbData = snapshot.val();
+      console.log("admin says: ");
+      console.log(snapshot.val())
+      _processData()
+    }
+  }
+  
+  function readError(error){
+    readStatus = "Failed"
+    console.log(error)
+  }
+
+  
 /**************************************************************/
 // fb_readAll(_path, _data)
 // Read all DB records for the path
@@ -167,34 +198,30 @@ function fb_readAll(_path, _data) {
 // Input:  path & key of record to read and where to save it
 // Return:
 /**************************************************************/
-function fb_readRec(_path, _key, _data, _processData) {
-    console.log('fb_readRec: path= ' + _path + '  key= ' + _key);
+function fb_readAdmin(_path, _key, _data, _processData) {
+    console.log('fb_readAdmin: path= ' + _path + ' key= ' + _key);
     readStatus = "Initialised";
-
     firebase.database().ref(_path+'/' + _key).once("value", gotData, readError)
-
+  
     function gotData(snapshot){
-        if (snapshot.val()==null){
-            readStatus = "Empty record";
-        } else {
-            readStatus = "complete";
-            // let dbData = snapshot.val();
-            // _data.uid = dbData.uid
-            // _data.email = dbData.email
-            // _data.score = dbData.score
-            // _data.photoURL = dbData.photoURL
-            // _data.name = dbData.name
-            _processData(snapshot.val());
-            // _processData(dbData);
-        }
+      if (snapshot.val()==null) { 
+        readStatus = "Empty record";
+        console.log("You are not an admin")
+        alert("you are not an admin")
+      } else {
+        readStatus = "complete";
+        let dbData = snapshot.val();
+        console.log("admin says: ");
+        console.log(snapshot.val())
+        _processData()
+      }
     }
-
+  
     function readError(error){
-        readStatus = "Failed";
-        console.log("error");
-        console.log(error);
+      readStatus = "Failed"
+      console.log(error)
     }
-}
+  }
 
 /**************************************************************/
 //    END OF MODULE

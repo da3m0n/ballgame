@@ -1,4 +1,6 @@
 const UTILS = new Utils();
+const ADMINDETAILS = "admin";
+const DETAILS = "users"; 
 
 class Pages {
     constructor() {
@@ -57,31 +59,20 @@ class GamePlayingState {
     constructor(game) {
         this.game = game;
     }
-    draw(ctx){
-        console.log('Game() draw');
-        background('red');
+    draw(ctx) {
+
+        for(let i = 0; i < balls.length; i++) {
+            const ball = balls[i];
+            ball.show();
+        }
+
+        this.game.drawText();
+        // console.log('Game() draw', balls);
+        // background('red');
         // console.log('in GamePlayingState->draw()...iterate over ball[] and draw each');
-        ctx.fillStyle = 'black';
-        ctx.font = '12px Arial';
-        ctx.fillText(
-            "Score:",
-            520,
-            120
-        );
-        // ctx.fillText(
-        //     score,
-        //     50,
-        //     20
-        // );
-
-        ctx.fillText(
-            "Total Time:",
-            32,
-            34
-        );
-
+        
     }
-    update(){
+    update(deltaTime){
         // console.log('in GamePlayingState->update()...update ball movement here and collisions here');
     }
 }
@@ -103,8 +94,11 @@ class Game {
         this.gameState = new GamePendingState(this);
         // this.startGame();
 
+        canvas = document.getElementById('defaultCanvas0');
+
         canvas.addEventListener('mousedown', (e) => {
-            console.log(e.clientX, e.clientY);
+            let rect = canvas.getBoundingClientRect();
+            console.log(e.clientX - rect.left);
         })
 
     }
@@ -113,49 +107,95 @@ class Game {
 
         console.log('Game() starting game...');
         this.gameState = new GamePlayingState(this);
-        this.balls  =[];
+        
 
         for (let i = 0; i < 10; i++) {
             let ballRadius = 10 + UTILS.random(10, 40);
             let x = UTILS.random(ballRadius, this.width - ballRadius);
             let y = UTILS.random(ballRadius, this.height- ballRadius);
-            // this.balls.push(new Ball(x, y, ballRadius, 5, 'blue'));
+            balls.push(new Ball(x, y, ballRadius, 5, 'blue'));
         }
+    }
+
+    drawText() {
+        ctx.fillStyle = '#ffeb3b';
+        ctx.font = '16px Arial';
+        ctx.fillText(
+            "Total Time:",
+            10,
+            20
+        );
+        ctx.fillText(
+            "Score:",
+            10,
+            38
+        );
+        // ctx.fillText(
+        //     score,
+        //     50,
+        //     20
+        // );
+
+        
+
     }
 
     draw(ctx){
         this.gameState.draw(ctx);
     }
 
-    update() {
-        // console.log('Game() update');
-        this.gameState.update();
+    update(deltaTime) {
+        console.log('Game() update');
+        this.gameState.update(deltaTime);
     }
 }
 
+
+function adminDetails() {
+    var adminLabel = document.getElementById("adminLabel");
+    fb_readAdmin(ADMINDETAILS, users.uid, users, function (admin) {
+        if (readStatus = "complete") {
+            adminLabel.innerHTML = "Admin: " + users.name;
+            adminLabel.appendChild(document.createTextNode("Admin:" + users.name));
+            pages.show("admin");
+        }
+   });
+}
+
+function back(){    
+    var adminLabel = document.getElementById("adminLabel");
+    while(adminLabel.firstChild){
+      adminLabel.firstChild.remove();    
+    }
+    pages.show('game');
+  }
+  
 /*****************************************************
  Written by Mr Ben, Term 1 2022
  Program to show two divs on buttonpress
  v1 Basic code to display a canvas
  /*****************************************************/
-function setup() {
-    cnv = createCanvas(50, 50);
-    pages = new Pages();
-}
-
-// let canvas = document.getElementById('defaultCanvas0');
-// let ctx = canvas.getContext('2d');
+let canvas
+let ctx
+let game; 
+let lastTime = 0;
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 300;
 
-// canvas.width = GAME_WIDTH;
-// canvas.height = GAME_HEIGHT;
-let game = new Game(GAME_WIDTH, GAME_HEIGHT, ctx);
+function setup() {
+    cnv = createCanvas(50, 50);
+    pages = new Pages();
+
+    canvas = document.getElementById('defaultCanvas0');
+    ctx = canvas.getContext('2d');
+    game = new Game(GAME_WIDTH, GAME_HEIGHT, ctx);
+}
 
 function draw() {
-    background('green');
-//     console.log('game()');
-    // game.update();
-    // game.draw(ctx);
+    let deltaTime = time() - lastTime;
+    // lastTime = 
+    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    game.draw(ctx);    
+    game.update();    
 }
 
